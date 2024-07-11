@@ -1,7 +1,6 @@
 {
   "name": "ws-console",
-  "version": "0.0.2",
-  "type": "module",
+  "version": "0.0.3",
   "files": [
     "dist",
     "index.d.ts"
@@ -17,9 +16,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc",
-    "release": "npm publish --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/"
+    "release": "npm publish --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/",
+    "prepare": "husky",
+    "update:version": "node ./script/update-version.js"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^19.2.2",
+    "commitlint": "^19.3.0",
+    "husky": "^9.0.11",
     "terser": "^5.31.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
