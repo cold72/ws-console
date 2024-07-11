@@ -1,0 +1,16 @@
+lib
+node_module
+script
+src
+public
+.husky
+
+.*
+package-lock.json
+tsconfig.json
+*.html
+*.ts
+*.js
+*.lock
+*.md
+
