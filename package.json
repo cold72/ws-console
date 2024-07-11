@@ -1,6 +1,5 @@
 {
   "name": "ws-console",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "files": [
@@ -17,7 +16,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc"
+    "build": "vite build && tsc",
+    "release": "npm publish --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/"
   },
   "devDependencies": {
     "terser": "^5.31.2",
