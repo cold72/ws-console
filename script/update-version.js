@@ -28,7 +28,6 @@ function main() {
       );
       break;
     case "perf":
-    case "chore":
     case "fix":
       fs.writeFileSync(
         packageJsonPath,
