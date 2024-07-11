@@ -6,6 +6,8 @@ type TMessageInfo = {
   sendSide: "client" | "server";
 };
 
+const storageKey = "ws-console-location";
+
 function JsonFormat(json: string) {
   const obj = JSON.parse(json);
   const formatResult = JSON.stringify(obj, null, 2);
@@ -66,25 +68,25 @@ function aniFade(
 }
 
 export class WsConsole {
-  wsInstanceMap = new Map<
+  private wsInstanceMap = new Map<
     string,
     {
       instance: WebSocket;
       messageList: Array<TMessageInfo>;
     }
   >();
-  _isOpen = false;
-  _activeUID = "";
+  private _isOpen = false;
+  private _activeUID = "";
 
   // 容器部分
-  container: HTMLElement | null = null;
-  mask: HTMLElement | null = null;
-  button: HTMLElement | null = null;
+  private container: HTMLElement | null = null;
+  private mask: HTMLElement | null = null;
+  private button: HTMLElement | null = null;
   // 内容部分
-  messagePanel: HTMLElement | null = null;
-  messageLeftPart: HTMLElement | null = null;
-  messageRightPart: HTMLElement | null = null;
-  messageTopPart: HTMLElement | null = null;
+  private messagePanel: HTMLElement | null = null;
+  private messageLeftPart: HTMLElement | null = null;
+  private messageRightPart: HTMLElement | null = null;
+  private messageTopPart: HTMLElement | null = null;
 
   set isOpen(value) {
     if (value) {
@@ -161,7 +163,7 @@ export class WsConsole {
     });
   }
 
-  clear() {
+  private clear() {
     Array.from(this.wsInstanceMap.entries()).forEach((item) => {
       if (item[1].instance.readyState !== WebSocket.OPEN) {
         this.wsInstanceMap.delete(item[0]);
@@ -182,7 +184,7 @@ export class WsConsole {
     }
     this.renderMessage();
   }
-  mount() {
+  private mount() {
     if (!this.container) {
       const mainPanel = this.getPanelDom();
       this.container = mainPanel;
@@ -195,7 +197,7 @@ export class WsConsole {
     }
   }
 
-  getPanelDom() {
+  private getPanelDom() {
     const mainPanel = document.createElement("div");
     const mainPanelStyle: CSSProperties = {
       height: "80vh",
@@ -212,7 +214,7 @@ export class WsConsole {
     return mainPanel;
   }
 
-  getPanelMask() {
+  private getPanelMask() {
     const div = document.createElement("div");
     const style: CSSProperties = {
       height: "100%",
@@ -229,7 +231,7 @@ export class WsConsole {
     return div;
   }
 
-  getFunctionDom() {
+  private getFunctionDom() {
     const functionDiv = document.createElement("div");
     const functionStyle: CSSProperties = {
       width: "100%",
@@ -269,14 +271,14 @@ export class WsConsole {
   }
 
   /** renderer */
-  renderButton() {
+  private renderButton() {
     const div = document.createElement("div");
     const style: CSSProperties = {
       height: "30px",
       width: "100px",
       position: "fixed",
-      top: "100px",
-      left: "100px",
+      top: `${this.getStorageLocation().y}px`,
+      left: `${this.getStorageLocation().x}px`,
       zIndex: 9997,
       backgroundColor: "#000",
       color: "#fff",
@@ -286,20 +288,41 @@ export class WsConsole {
       justifyContent: "center",
       alignItems: "center",
     };
-    Object.entries(style).forEach(
-      // @ts-ignore 暂时避免
-      ([key, value]) => (div.style[key as keyof CSSProperties] = value)
-    );
+    setStyle(div, style);
+
+    // 拖拽能力
+    div.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+      const moveHandler = (e: TouchEvent) => {
+        e.stopPropagation();
+        const x = e.touches[0].clientX - div.clientWidth / 2;
+        const y = e.touches[0].clientY - div.clientHeight / 2;
+        this.storageLocation(x, y);
+        setStyle(div, {
+          left: `${x}px`,
+          top: `${y}px`,
+        });
+      };
+      const endHandler = () => {
+        div.removeEventListener("touchmove", moveHandler);
+        div.removeEventListener("touchend", endHandler);
+      };
+      div.addEventListener("touchmove", moveHandler);
+      div.addEventListener("touchend", endHandler);
+    });
+
     div.innerHTML = "WSConsole";
     div.addEventListener("click", () => {
       this.isOpen = !this.isOpen;
       this.mount();
     });
-    this.button = div;
-    document.body.appendChild(div);
+    if (!this.button) {
+      this.button = div;
+      document.body.appendChild(div);
+    }
   }
 
-  renderMessage() {
+  private renderMessage() {
     if (!this.container) {
       return;
     }
@@ -324,7 +347,7 @@ export class WsConsole {
     this.renderRight();
   }
 
-  renderLeft() {
+  private renderLeft() {
     if (!this.messagePanel) return;
     const instanceList = Array.from(this.wsInstanceMap.entries());
     const getStyle = (uuid: string, index: number): CSSProperties => {
@@ -406,7 +429,7 @@ export class WsConsole {
     }
   }
 
-  renderRight() {
+  private renderRight() {
     if (!this.messagePanel) return;
     const messageList =
       this.wsInstanceMap.get(this.activeUId)?.messageList || [];
@@ -456,10 +479,27 @@ export class WsConsole {
     this.messageRightPart.scrollTo(0, this.messageRightPart.scrollHeight);
   }
 
-  renderTop() {
+  private renderTop() {
     if (!this.messageTopPart) {
       this.messageTopPart = this.getFunctionDom();
       this.container?.appendChild(this.messageTopPart);
+    }
+  }
+
+  private storageLocation(x: number, y: number) {
+    localStorage.setItem(storageKey, JSON.stringify({ x, y }));
+  }
+
+  private getStorageLocation() {
+    const result = localStorage.getItem(storageKey);
+    if (result) {
+      const obj = JSON.parse(result);
+      return { x: obj?.x ?? 100, y: obj?.y ?? 100 };
+    } else {
+      return {
+        x: 100,
+        y: 100,
+      };
     }
   }
 }

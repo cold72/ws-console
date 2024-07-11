@@ -1,6 +1,6 @@
 {
   "name": "ws-console",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "files": [
     "dist",
     "index.d.ts"
@@ -10,11 +10,11 @@
   "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
-    "import": "./dist/WsConsole.js",
+    "import": "./dist/WsConsole.mjs",
     "require": "./dist/WsConsole.umd.cjs"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build && tsc",
     "release": "npm publish --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/",
     "prepare": "husky",
