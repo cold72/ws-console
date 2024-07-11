@@ -1,6 +1,6 @@
 {
   "name": "ws-console",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "type": "module",
   "files": [
     "dist",
@@ -8,9 +8,9 @@
   ],
   "main": "./dist/WsConsole.umd.cjs",
   "module": "./dist/WsConsole.js",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "types": "./index.d.ts",
+    "types": "./dist/index.d.ts",
     "import": "./dist/WsConsole.js",
     "require": "./dist/WsConsole.umd.cjs"
   },
