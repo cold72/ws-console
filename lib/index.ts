@@ -290,7 +290,7 @@ export class WsConsole {
     };
     setStyle(div, style);
 
-    // 拖拽能力
+    // 移动端拖拽能力
     div.addEventListener("touchstart", (e) => {
       e.stopPropagation();
       const moveHandler = (e: TouchEvent) => {
@@ -309,6 +309,29 @@ export class WsConsole {
       };
       div.addEventListener("touchmove", moveHandler);
       div.addEventListener("touchend", endHandler);
+    });
+    // pc 端拖拽能力
+    div.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const moveHandler = (e: MouseEvent) => {
+        setStyle(div, { pointerEvents: "none" });
+        e.stopPropagation();
+        const x = e.clientX - div.clientWidth / 2;
+        const y = e.clientY - div.clientHeight / 2;
+        this.storageLocation(x, y);
+        setStyle(div, {
+          left: `${x}px`,
+          top: `${y}px`,
+        });
+      };
+      const endHandler = () => {
+        setStyle(div, { pointerEvents: "auto" });
+        document.removeEventListener("mousemove", moveHandler);
+        document.removeEventListener("mouseup", endHandler);
+      };
+      document.addEventListener("mousemove", moveHandler);
+      document.addEventListener("mouseup", endHandler);
     });
 
     div.innerHTML = "WSConsole";
