@@ -1,0 +1,31 @@
+{
+  "name": "ws-console",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "./dist/WsConsole.umd.cjs",
+  "module": "./dist/WsConsole.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "types": "./index.d.ts",
+    "import": "./dist/WsConsole.js",
+    "require": "./dist/WsConsole.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc"
+  },
+  "devDependencies": {
+    "terser": "^5.31.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "dependencies": {
+    "csstype": "^3.1.3"
+  }
+}
