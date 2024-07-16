@@ -1,5 +1,5 @@
 {
-  "name": "ws-console",
+  "name": "websocket-console",
   "version": "0.0.7",
   "files": [
     "dist",
