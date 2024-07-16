@@ -3,24 +3,24 @@
 #### yarn
 
 ```bash
-yarn add ws-console
+yarn add websocket-console
 ```
 
 #### npm
 
 ```bash
-npm install ws-console
+npm install websocket-console
 ```
 
 #### pnpm
 
 ```bash
-pnpm install ws-console
+pnpm install websocket-console
 ```
 
 ### 使用
 
 ```typescript
-import { WsConsole } from "ws-console";
+import { WsConsole } from "websocket-console";
 new WsConsole();
 ```
