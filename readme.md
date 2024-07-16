@@ -3,19 +3,19 @@
 #### yarn
 
 ```bash
-yarn add ws-console --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/
+yarn add ws-console
 ```
 
 #### npm
 
 ```bash
-npm install ws-console --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/
+npm install ws-console
 ```
 
 #### pnpm
 
 ```bash
-pnpm install ws-console --registry=https://xverse-git-npm.pkg.coding.net/npm-registry/npm/
+pnpm install ws-console
 ```
 
 ### 使用
