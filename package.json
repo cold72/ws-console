@@ -1,6 +1,6 @@
 {
   "name": "websocket-console",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "files": [
     "dist",
     "index.d.ts"
@@ -12,6 +12,10 @@
     "types": "./dist/index.d.ts",
     "import": "./dist/WsConsole.mjs",
     "require": "./dist/WsConsole.umd.cjs"
+  },
+  "repository": {
+    "directory": "github",
+    "url": "https://github.com/cold72/ws-console/tree/main"
   },
   "scripts": {
     "dev": "vite build --watch",
